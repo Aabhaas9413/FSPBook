@@ -1,0 +1,78 @@
+﻿@page
+@model FSPBook.Presentation.Pages.Home.IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <!-- Posts Section -->
+    <div class="col-md-8">
+        <h1 class="display-4">Posts</h1>
+        @if (Model.Posts.Any())
+        {
+            <ul class="list-group">
+                @foreach (var post in Model.Posts)
+                {
+                    <li class="list-group-item">
+                        <h5>
+                            <a asp-page="/Profile/Index" asp-route-id="@post.AuthorId">@post.AuthorName</a>
+                        </h5>
+                        <p>@post.Content</p>
+                        <small>Posted on: @post.DateTimePosted.ToString("f")</small>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No posts available.</p>
+        }
+
+        <div class="mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-page="/Home/Index" asp-route-currentPage="@(Model.CurrentPage - 1)">Previous</a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-page="/Index" asp-route-currentPage="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-page="/Index" asp-route-currentPage="@(Model.CurrentPage + 1)">Next</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- News Section -->
+    <div class="col-md-4">
+        <h2>Technology News</h2>
+        @if (Model.NewsHeadlines.Any())
+        {
+            <ul class="list-group">
+                @foreach (var article in Model.NewsHeadlines)
+                {
+                    <li class="list-group-item">
+                        <a href="@article.Url" target="_blank">@article.Title</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No news available at the moment.</p>
+        }
+    </div>
+</div>

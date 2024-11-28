@@ -1,0 +1,28 @@
+﻿@page "{id:int}"
+@model FSPBook.Presentation.Pages.Profile.IndexModel
+@{
+    ViewData["Title"] = "Profile Page";
+}
+
+<div class="container mt-4">
+    <h1>@Model.Profile.FullName</h1>
+    <h4>@Model.Profile.JobTitle</h4>
+
+    <h2 class="mt-4">Recent Posts</h2>
+    @if (Model.Posts.Any())
+    {
+        <ul class="list-group">
+            @foreach (var post in Model.Posts)
+            {
+                <li class="list-group-item">
+                    <p>@post.Content</p>
+                    <small>Posted on: @post.DateTimePosted.ToString("f")</small>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No posts available for this user.</p>
+    }
+</div>
